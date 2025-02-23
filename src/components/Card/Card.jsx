@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import "./Card.css";
+import ArrowDown from "../../assets/images/arrow_down.png";
+import SteamButton from "../../assets/images/steam_button.png";
+import placehold from "../../assets/images/placeholdChart.svg";
 // import Chart from "../Chart/Chart";
 
 export default function Card(prop) {
@@ -51,7 +54,7 @@ export default function Card(prop) {
         <p className="card-description">{prop.gameDescription}</p>
         <div className="card-platforms">
           <a href={"https://store.steampowered.com/app/" + prop.steamAppID}>
-            <img src="/images/steam_button.png" alt="steam" />
+            <img src={SteamButton} alt="steam" />
           </a>
         </div>
       </div>
@@ -60,17 +63,13 @@ export default function Card(prop) {
           style={{
             filter: "invert(1) opacity(0.5)",
           }}
-          src="https://placehold.co/500x500?text=Chart"
+          src={placehold}
           alt="chart"
         />
         {/* <Chart prop={{ id: "priceContainer" }} /> */}
       </div>
       <div className="buttonContainer">
-        <img
-          style={{ filter: " invert(1)" }}
-          src="/images/arrow_down.png"
-          alt=""
-        />
+        <img style={{ filter: " invert(1)" }} src={ArrowDown} alt="" />
       </div>
       <div className="bg">
         <img
