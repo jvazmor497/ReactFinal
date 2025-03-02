@@ -1,5 +1,4 @@
 import "./App.css";
-import SearchBox from "./components/SeachBox/SearchBox";
 import CardsViewer from "./components/CardsViewer/CardsViewer";
 import { useState, useRef } from "react";
 
@@ -17,14 +16,13 @@ function App() {
 
     timeoutRef.current = setTimeout(() => {
       setSearch(value);
-    }, 1000);
+    }, 5000);
   }
 
   return (
     <>
-      <h1>Steam Price Comparator</h1>
-      <p>Compare the price of your games</p>
-      <input onChange={handleSearch} type="text" />
+      <h1>React Price Comparator</h1>
+      <input onChange={handleSearch} type="text" placeholder="Search for a game..." />
       <CardsViewer search={search} />
     </>
   );

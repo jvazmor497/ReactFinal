@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-type-animation": "^3.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

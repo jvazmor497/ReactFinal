@@ -1,27 +1,25 @@
-import { useEffect, useState } from "react";
-import Card from "../Card/Card";
+import { lazy, Suspense, useEffect, useState } from "react";
+const Card = lazy(() => import("../Card/Card"));
+import { getGamesList } from "../../services/cheapSharkAPI.js";
+// import Card from "../Card/Card";
 
 export default function CardsViewer(prop) {
   const [gameList, setGameList] = useState([]);
 
+  // Fetch games
   useEffect(() => {
-    const getGameList = async () => {
-      const response = await fetch(
-        "https://www.cheapshark.com/api/1.0/games?title=" + prop.search
-      ).then((response) => response.json());
-
-      setGameList(response);
-      console.log(response);
+    const fetchGames = async () => {
+      const games = await getGamesList(prop);
+      setGameList(games);
     };
-
-    getGameList();
+    fetchGames();
   }, [prop]);
 
   return (
-    <>
-      {gameList.map((game) => (
-        game.steamAppID && <Card key={game.gameID} {...game} />
-      ))}
-    </>
+    <Suspense fallback={<p>Loading...</p>}>
+      {gameList.map(
+        (game) => game.steamAppID && <Card key={game.gameID} {...game} />
+      )}
+    </Suspense>
   );
 }
