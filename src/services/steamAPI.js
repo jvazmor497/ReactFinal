@@ -1,3 +1,4 @@
+const steamAPIBaseURL = "https://store.steampowered.com/api/appdetails?appids=";
 const steamCDN = "https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/";
 
 async function getImageCover(prop) {
@@ -22,8 +23,20 @@ async function getImageCover(prop) {
                 return (steamCDN + prop.steamAppID + "/library_600x900.jpg");
             }
         } catch {
-            console.log("library_600x900 not found");
-            return prop.thumb;
+            try {
+                console.log("hero_capsule.jpg not found");
+
+                const response = await fetch(
+                    steamCDN + prop.steamAppID + "/portrait.png"
+                );
+
+                if (response.ok) {
+                    return (steamCDN + prop.steamAppID + "/portrait.png");
+                }
+            } catch {
+                console.log("library_600x900 not found");
+                return prop.thumb;
+            }
         }
     }
 }
@@ -44,5 +57,26 @@ async function getImageBg(prop) {
     }
 };
 
+// getDescriptions
+async function getGameDescription(props) {
+    try {
+        const response = await fetch(`${steamAPIBaseURL}${props.steamAppID}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data[props.steamAppID].success) {
+                return data[props.steamAppID].data.short_description;
+            } else {
+                throw new Error("Failed to fetch game description");
+            }
+        } else {
+            throw new Error("Network response was not ok");
+        }
+    } catch (error) {
+        console.error("Error fetching game description:", error);
+        return "Description not available";
+    }
+}
 
-export { getImageCover, getImageBg as getBGImage };
+
+
+export { getImageCover, getImageBg, getGameDescription };

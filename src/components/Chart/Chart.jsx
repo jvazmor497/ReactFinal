@@ -3,20 +3,32 @@ import ReactECharts from "echarts-for-react";
 import "./Chart.css";
 import { getPriceData } from "../../services/cheapSharkAPI";
 
-export default function Chart(prop) {
+export default function Chart(props) {
   const [option, setOption] = useState(null);
 
   const stores = JSON.parse(localStorage.getItem("stores"));
 
   useEffect(() => {
     const fetchPrices = async () => {
-      const games = await getPriceData(prop);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const gameID = props.prop.gameID;
+
+      const games = await getPriceData(gameID);
+
+      if (!games || !games.deals) {
+        console.error("No deals found for the game");
+        return;
+      }
+
+      console.table(games);
+
       setOption({
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'shadow'
-          }
+            type: "shadow",
+          },
         },
         xAxis: {
           type: "value",
@@ -49,8 +61,9 @@ export default function Chart(prop) {
         ],
       });
     };
+
     fetchPrices();
-  }, [prop, stores]);
+  }, [props, stores]);
 
   // console.group("Prices");
   // console.dir(priceData);
